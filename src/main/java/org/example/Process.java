@@ -20,6 +20,7 @@ public class Process {
         return finished;
     }
     public void setFinished () {this.finished = true;}
+    public int getStartTime() {return this.startTime;}
     public String toString() {
         return "id = " + this.id + ", duration = " + this.duration + ", startTime = " + this.startTime;
     }

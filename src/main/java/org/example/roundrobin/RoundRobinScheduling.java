@@ -3,47 +3,67 @@ package org.example.roundrobin;
 import org.example.Process;
 import org.example.SchedulingInterface;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class RoundRobinScheduling implements SchedulingInterface {
 
+    private static final int ROUND = 2;
     private final List<Process> list;
     private int COUNT_OF_PROCESSES;
+    private LinkedList<Process> queue = new LinkedList<>();
+    private int time = 0;
+    private RoundRobinProcessClass[] roundRobinProcessClass;
 
     public RoundRobinScheduling(List<Process> list) {
         this.list = list;
         this.COUNT_OF_PROCESSES = list.size();
+        roundRobinProcessClass = new RoundRobinProcessClass[COUNT_OF_PROCESSES];
+        for (int i = 0; i < COUNT_OF_PROCESSES; i++) {roundRobinProcessClass[i] = new RoundRobinProcessClass();roundRobinProcessClass[i].setOriginalTime(list.get(i).getProcessTime());}
     }
-
     @Override
     public Process getNextProcess(int currentProcessId) {
+        enqueueProcessesUpToCurrentTime();
         if (COUNT_OF_PROCESSES <= 0) return null;
-        int size = list.size();
-        int start = (currentProcessId + 1) % size;
-        for (int checked = 0; checked < size; checked++) {
-            int index = (start + checked) % size;
-            Process process = list.get(index);
-            if (!process.isFinished()) return process;
+
+        while (queue.isEmpty()) {
+            time++;
+            enqueueProcessesUpToCurrentTime();
+        }
+
+        if (!queue.isEmpty()) {
+            Process nextProcess = queue.poll();
+            return nextProcess;
         }
         return null;
     }
-
+    private void enqueueProcessesUpToCurrentTime() {
+        for (Process process : list) {
+            if (process.getStartTime() <= time && !queue.contains(process) && !process.isFinished()) {
+                queue.add(process);
+            }
+        }
+    }
     @Override
     public boolean deleteProcess(Process process) {
         process.setFinished();
-        this.COUNT_OF_PROCESSES--;
+        COUNT_OF_PROCESSES--;
         return true;
     }
-
     @Override
     public void updateDuration(Process process) {
-        int newTime = process.getProcessTime() - ROUND;
-        if (newTime <= 0) {
+        if (process.getProcessTime() <= ROUND) {
+            time += process.getProcessTime();
             deleteProcess(process);
+            roundRobinProcessClass[process.getId()].setProcess(process);
+            roundRobinProcessClass[process.getId()].setEndingTime(time);
+            roundRobinProcessClass[process.getId()].setWaitingTime( time - process.getStartTime() - roundRobinProcessClass[process.getId()].getOriginalTime());
         } else {
+            time += ROUND;
+            int newTime = process.getProcessTime() - ROUND;
             process.setDuration(newTime);
+            queue.remove(process);
         }
     }
-
-    public int getCOUNT_OF_PROCESSES() { return COUNT_OF_PROCESSES; }
+    public RoundRobinProcessClass[] getStatistics() { return roundRobinProcessClass; }
 }

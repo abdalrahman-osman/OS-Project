@@ -16,5 +16,6 @@ public class Main {
 
         ///  Print Result here
         schedulingAlgorithm.print(RoundRobinResult);
+        schedulingAlgorithm.printStatistics();
     }
 }

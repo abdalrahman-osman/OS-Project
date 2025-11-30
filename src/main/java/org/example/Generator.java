@@ -13,9 +13,9 @@ public class Generator {
     private List<Process> list;
     private List<Process> generate (int num) {
         list = new ArrayList<>();
-        Random random = new Random();
+        Random random = new Random(124);
         for (int i = 0; i < num; i++) {
-            Process process = new Process(random.nextInt(20) + 3, random.nextInt(10) + 1);
+            Process process = new Process(random.nextInt(10) + 2, random.nextInt(5) + 1);
             list.add(process);
         }
         list.forEach(process -> System.out.println(process.toString()));
@@ -23,7 +23,7 @@ public class Generator {
     }
     public List<Process> getProcessList() {
         if (list == null) {
-            list = generate(10);
+            list = generate(5);
         }
         return clone(list);
     }

@@ -10,4 +10,5 @@ public abstract class SchedulingAlgorithm {
     }
 
     public abstract List<String> run (List<Process> processes);
+    public abstract void printStatistics();
 }
