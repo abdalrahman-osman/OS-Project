@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.roundrobin.RoundRobinAlgorithm;
+import org.example.sjf.SJFAlgorithm;
 
 import java.util.List;
 
@@ -10,12 +11,16 @@ public class Main {
 
         ///  put your code here.
         ///  Naming Convention -> (Algorithm name)List, (Algorithm name)Result
-        List<Process> roundRobinList = generator.getProcessList();
-        SchedulingAlgorithm schedulingAlgorithm = new RoundRobinAlgorithm(roundRobinList);
-        List<String> RoundRobinResult = schedulingAlgorithm.run(roundRobinList);
+//        List<Process> roundRobinList = generator.getProcessList();
+//        SchedulingAlgorithm schedulingAlgorithm = new RoundRobinAlgorithm(roundRobinList);
+//        List<String> roundRobinResult = schedulingAlgorithm.run(roundRobinList);
+
+        List<Process> sjfList = generator.getProcessList();
+        SchedulingAlgorithm schedulingAlgorithm = new SJFAlgorithm(sjfList);
+        List<String> sjfResult = schedulingAlgorithm.run(sjfList);
 
         ///  Print Result here
-        schedulingAlgorithm.print(RoundRobinResult);
+        schedulingAlgorithm.print(sjfResult);
         schedulingAlgorithm.printStatistics();
     }
 }
