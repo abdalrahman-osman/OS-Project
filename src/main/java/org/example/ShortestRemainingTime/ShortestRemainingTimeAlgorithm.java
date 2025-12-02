@@ -27,20 +27,27 @@ public class ShortestRemainingTimeAlgorithm extends SchedulingAlgorithm {
         int total = processList.size();
 
         int lastRunningId = -1;
+        timeline.add("-- Starting Shortest Remaining Time Algorithm -- ");
         while (scheduler.getStatistics().size() < total) {
             Process next = scheduler.getNextProcess(lastRunningId);
             if (next == null) {
                 // no more processes
                 break;
             }
-            // record which process runs at this time unit
-            // scheduler.updateDuration will advance time by 1
-            int beforeTime = scheduler.getCurrentTime();
+
+            // capture scheduler time when the process is selected
+            int fetchTime = scheduler.getCurrentTime();
+
+            // only record when a new process starts running (context switch or first start)
+            if (next.getId() != lastRunningId) {
+                timeline.add("\t\t[currentTime=" + fetchTime + "] Process " + next.getId() + " is running");
+            }
+
+            // advance the simulation by one time unit for the selected process
             scheduler.updateDuration(next);
-            timeline.add("Time " + beforeTime + " -> Process " + next.getId());
             lastRunningId = next.getId();
         }
-
+        timeline.add("-- Ending Shortest Remaining Time Algorithm -- ");
         return timeline;
     }
 
@@ -50,9 +57,11 @@ public class ShortestRemainingTimeAlgorithm extends SchedulingAlgorithm {
             return;
         }
         List<Statistics> stats = scheduler.getStatistics();
+        System.out.println("=== Shortest Remaining Time Statistics ===");
         for (Statistics s : stats) {
-            System.out.println(s.toString());
+            System.out.println("\t\t" + s.toString());
         }
+        System.out.println("=== End of Shortest Remaining Time Statistics ===");
     }
 
 }
