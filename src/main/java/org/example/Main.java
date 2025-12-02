@@ -29,14 +29,14 @@ public class Main {
                 schedulingAlgorithm = new SJFAlgorithm(processList);
                 result = schedulingAlgorithm.run(processList);
                 break;
+            case 3:
+                schedulingAlgorithm = new ShortestRemainingTimeAlgorithm(processList);
+                result = schedulingAlgorithm.run(processList);
+                break;
             case 4:
                 ///  put your code here.
                 ///  Naming Convention -> (Algorithm name)List, (Algorithm name)Result
                 schedulingAlgorithm = new RoundRobinAlgorithm(processList);
-                result = schedulingAlgorithm.run(processList);
-                break;
-            case 3:
-                schedulingAlgorithm = new ShortestRemainingTimeAlgorithm(processList);
                 result = schedulingAlgorithm.run(processList);
                 break;
             default:
