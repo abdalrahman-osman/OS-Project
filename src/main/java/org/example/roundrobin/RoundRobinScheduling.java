@@ -31,16 +31,11 @@ public class RoundRobinScheduling implements SchedulingInterface {
         enqueueProcessesUpToCurrentTime();
         if (countOfProcesses <= 0) return null;
 
-        while (queue.isEmpty()) {
-            time++;
-            enqueueProcessesUpToCurrentTime();
+        if (queue.isEmpty()) {
+            waitForNextProcess();
         }
 
-        if (!queue.isEmpty()) {
-            Process nextProcess = queue.poll();
-            return nextProcess;
-        }
-        return null;
+        return queue.isEmpty() ? null : queue.poll();
     }
 
     private void enqueueProcessesUpToCurrentTime() {
@@ -50,28 +45,42 @@ public class RoundRobinScheduling implements SchedulingInterface {
             }
         }
     }
+
+    private void waitForNextProcess() {
+        while (queue.isEmpty() && countOfProcesses > 0) {
+            time++;
+            enqueueProcessesUpToCurrentTime();
+        }
+    }
+
     @Override
     public boolean deleteProcess(Process process) {
         process.setFinished();
         countOfProcesses--;
         return true;
     }
+
     @Override
     public void updateDuration(Process process) {
         if (process.getProcessTime() <= ROUND) {
             time += process.getProcessTime();
             deleteProcess(process);
-            statistics[process.getId()].setProcess(process);
-            statistics[process.getId()].setEndingTime(time);
-            statistics[process.getId()].setWaitingTime
-                    ( time - process.getStartTime() - statistics[process.getId()].getOriginalTime());
+            updateStatistics(process);
         } else {
             time += ROUND;
-            int newTime = process.getProcessTime() - ROUND;
-            process.setDuration(newTime);
+            process.setDuration(process.getProcessTime() - ROUND);
             queue.remove(process);
         }
     }
+
+    public void updateStatistics(Process process) {
+        statistics[process.getId()].setProcess(process);
+        statistics[process.getId()].setEndingTime(time);
+        statistics[process.getId()].setWaitingTime
+                ( time - process.getStartTime() - statistics[process.getId()].getOriginalTime());
+    }
+
     public Statistics[] getStatistics() { return statistics; }
+
     public int getCurrentTime() { return time; }
 }
