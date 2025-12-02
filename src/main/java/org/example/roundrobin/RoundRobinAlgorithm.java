@@ -17,14 +17,17 @@ public class RoundRobinAlgorithm extends SchedulingAlgorithm {
         result.add("-- Starting Round Robin Algorithm --");
         Process process = roundRobinScheduling.getNextProcess(0);
         while(process!=null){
-            String s = "\t\tprocess " + process.getId() + " is running";
-            result.add(s);
+            String outputLine = String.format("\t\t" + "[current time = %d] process %d is running",
+                    roundRobinScheduling.getCurrentTime(),
+                    process.getId());
+            result.add(outputLine);
             roundRobinScheduling.updateDuration(process);
             process = roundRobinScheduling.getNextProcess(0);
             if (process == null) {result.add("-- Ending Round Robin Algorithm --");break;}
         }
         return result;
     }
+
     public void printStatistics(){
         Statistics[] arr = roundRobinScheduling.getStatistics();
         System.out.println("--- Round Robin Statistics ---");
