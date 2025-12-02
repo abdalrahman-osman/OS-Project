@@ -35,7 +35,7 @@ public class Main {
                 schedulingAlgorithm = new RoundRobinAlgorithm(processList);
                 result = schedulingAlgorithm.run(processList);
                 break;
-            case 5:
+            case 3:
                 schedulingAlgorithm = new ShortestRemainingTimeAlgorithm(processList);
                 result = schedulingAlgorithm.run(processList);
                 break;
