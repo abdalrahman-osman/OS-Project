@@ -13,7 +13,7 @@ import java.util.List;
  * Multilevel scheduling uses different queues for different process categories
  * For ex, an interactive process (with user) has a different queue for a system process
  * In this simulation:
- * We will two catefories (Interactive & System)
+ * We will use two categories (Interactive & System)
  * >> Round robin algorithm will be used for the interactive processes
  * >> FSFC algorithm will be used for the system processes
  * >> Interactive queue has a higher priority than system queue
