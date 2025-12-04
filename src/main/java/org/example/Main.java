@@ -5,6 +5,7 @@ import org.example.roundrobin.RoundRobinAlgorithm;
 import org.example.sjf.SJFAlgorithm;
 import org.example.ShortestRemainingTime.ShortestRemainingTimeAlgorithm;
 import org.example.MultiLevel.MultiLevelAlgorithm;
+import org.example.MultiLevelFeedback.MultiLevelFeedbackAlgorithm;
 
 import java.util.List;
 import java.util.Scanner;
@@ -56,10 +57,12 @@ public class Main {
                 result = schedulingAlgorithm.run(processList);
                 break;
 
-                
-            // case i 
-                ///  put your code here.
-                ///  Naming Convention -> (Algorithm name)List, (Algorithm name)
+
+            case 7:
+                processList = generator.getProcessList(true);
+                schedulingAlgorithm = new MultiLevelFeedbackAlgorithm(processList);
+                result = schedulingAlgorithm.run(processList);
+                break;
 
             default:
                 System.out.println("Please, Enter a valid input");

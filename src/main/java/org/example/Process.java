@@ -12,6 +12,9 @@ public class Process {
     private String processType;  // For multilevel scheduling
     public static final String SYSTEM = "system";
     public static final String INTERACTIVE = "interactive";
+
+    // For multiLevelFeedback
+    private int priority = 0;
  
     public Process(int time, int startTime) {
         this.id = counter++;
@@ -57,6 +60,14 @@ public class Process {
     public String getProcessType() {
         return this.processType;
     }
+
+    public int getPriority() {
+        return this.priority;
+    }
+
+    public void setPriority(int p) {
+        this.priority = p;
+    } 
 
     public String toString() {
         String result = "id = " + this.id + ", duration = " + this.duration + ", startTime = " + this.startTime;
