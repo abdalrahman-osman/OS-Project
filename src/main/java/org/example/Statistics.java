@@ -44,9 +44,15 @@ public class Statistics {
 
     @Override
     public String toString() {
-        return "Process ID: " + process.getId()
+        String result = "Process ID: " + process.getId()
                 + ", Ending Time: " + endingTime
                 + ", Waiting Time: " + waitingTime
                 + ", Original Time: " + originalTime;
+        
+        if (!process.getProcessType().equals("general")) {
+            result += ", Process Type: " + process.getProcessType();
+        }
+        
+        return result;
     }
 }

@@ -18,7 +18,7 @@ public class Process {
         this.duration = time;
         this.startTime = startTime;
         this.finished = false;
-        this.processType = SYSTEM;
+        this.processType = "general";
     }
 
     public Process(int time, int startTime, String type) {
@@ -59,7 +59,12 @@ public class Process {
     }
 
     public String toString() {
-        return "id = " + this.id + ", duration = " + this.duration + ", startTime = " + this.startTime;
+        String result = "id = " + this.id + ", duration = " + this.duration + ", startTime = " + this.startTime;
+        if (!this.processType.equals("general")) {
+            result += ", processType: " + this.processType;
+        }
+
+        return result;
     }
     
 }

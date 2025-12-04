@@ -23,9 +23,10 @@ public class MultiLevelAlgorithm extends SchedulingAlgorithm {
 
         while(process != null) {
             String outputLine = String.format(
-                "\t\t" + "[current time = %d] process %d is running",
+                "\t\t" + "[current time = %d] process %d is running, process type: %s",
                 multiLevelScheduling.getCurrentTime(),
-                process.getId()
+                process.getId(),
+                process.getProcessType()
             );
             result.add(outputLine);
 
