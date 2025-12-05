@@ -38,13 +38,13 @@ public class MultiLevelFeedbackAlgorithm extends SchedulingAlgorithm {
             }
 
 
+            // Update Output
             int priorityMLF = process.getPriorityMLF();
             String queue = "";
             if (priorityMLF == PRIORITY_0) {queue = "Queue0";}
             else if (priorityMLF == PRIORITY_1) {queue = "Queue1";}
             else if (priorityMLF == PRIORITY_2) {queue = "Queue2";}
 
-            // Update Output
             String outputLine = String.format(
                 "\t\t" + "[current time = %d] process %d is running, process type: %s, from queue: %s",
                 multiLevelFeedbackScheduling.getCurrentTime(),
@@ -55,6 +55,7 @@ public class MultiLevelFeedbackAlgorithm extends SchedulingAlgorithm {
 
             result.add(outputLine);
 
+            // Updating Processes
             multiLevelFeedbackScheduling.updateDuration(process);
             process = multiLevelFeedbackScheduling.getNextProcess(0);
             if (process == null) {
