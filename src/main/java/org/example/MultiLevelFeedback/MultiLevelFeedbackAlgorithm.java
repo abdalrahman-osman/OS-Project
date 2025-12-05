@@ -31,13 +31,6 @@ public class MultiLevelFeedbackAlgorithm extends SchedulingAlgorithm {
 
             int currentTime = multiLevelFeedbackScheduling.getCurrentTime();
 
-            // Reset priorities each RESRT_TIME
-            if (currentTime % RSEET_TIME == 0 && currentTime != 0) {
-                multiLevelFeedbackScheduling.promoteAllProcesses();
-                result.add("-- Resetting Priorities --");
-            }
-
-
             // Update Output
             int priorityMLF = process.getPriorityMLF();
             String queue = "";
@@ -47,13 +40,20 @@ public class MultiLevelFeedbackAlgorithm extends SchedulingAlgorithm {
 
             String outputLine = String.format(
                 "\t\t" + "[current time = %d] process %d is running, process type: %s, from queue: %s",
-                multiLevelFeedbackScheduling.getCurrentTime(),
+                // multiLevelFeedbackScheduling.getCurrentTime(),
+                currentTime,
                 process.getId(),
                 process.getProcessType(),
                 queue
             );
 
             result.add(outputLine);
+
+            // Reset priorities each RESRT_TIME
+            if (currentTime % RSEET_TIME == 0 && currentTime != 0) {
+                multiLevelFeedbackScheduling.promoteAllProcesses();
+                result.add("-- Resetting Priorities --");
+            }
 
             // Updating Processes
             multiLevelFeedbackScheduling.updateDuration(process);
